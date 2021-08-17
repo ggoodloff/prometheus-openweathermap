@@ -22,7 +22,7 @@ type airPollution struct {
 	} `json:"list"`
 }
 
-func (env *environment) collectPollution(s *station) collectorFunc {
+func (env *environment) collectPollution(s station) collectorFunc {
 	endpoint := env.BaseURL
 	endpoint.Path = path.Join(endpoint.Path, "air_pollution")
 

@@ -40,7 +40,7 @@ func main() {
 	for _, s := range cfg.Stations {
 		if s.Metrics.Pollution {
 			collectors = append(collectors, &collector{
-				Collect: env.collectPollution(&s),
+				Collect: env.collectPollution(s),
 				Rate:    apiCallRate,
 				Backoff: cfg.API.Backoff,
 			})
