@@ -17,9 +17,9 @@ type openweathermap struct {
 	Key     string `mapstructure:"key"`
 	BaseURL string `mapstructure:"base_url"`
 
-	MaxAPICallsPerMonth uint          `mapstructure:"max_api_calls_per_month"`
-	MinPollRate         time.Duration `mapstructure:"min_poll_rate"`
-	Backoff             backoff       `mapstructure:"backoff"`
+	MaxCallsPerMonth uint          `mapstructure:"max_calls_per_month"`
+	MinPollRate      time.Duration `mapstructure:"min_poll_rate"`
+	Backoff          backoff       `mapstructure:"backoff"`
 }
 
 type station struct {

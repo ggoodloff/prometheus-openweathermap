@@ -34,8 +34,8 @@ func main() {
 
 	var collectors []*collector
 
-	log.Printf("Max API Calls Per Month: %d\n", cfg.API.MaxAPICallsPerMonth)
-	apiCallRate := 31 * 24 * time.Hour / time.Duration(cfg.API.MaxAPICallsPerMonth)
+	log.Printf("Max API Calls Per Month: %d\n", cfg.API.MaxCallsPerMonth)
+	apiCallRate := 31 * 24 * time.Hour / time.Duration(cfg.API.MaxCallsPerMonth)
 
 	for _, s := range cfg.Stations {
 		if s.Metrics.Pollution {

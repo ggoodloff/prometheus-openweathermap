@@ -42,7 +42,7 @@ func populateDefaultConfig(v *viper.Viper) {
 	v.SetDefault("address", ":80")
 	v.SetDefault("api", map[string]interface{}{
 		"base_url":                "http://api.openweathermap.org/data/2.5/",
-		"max_api_calls_per_month": 10000,
+		"max_calls_per_month": 10000,
 		"min_poll_rate":           time.Minute,
 		"backoff": map[string]interface{}{
 			"base_delay": 10 * time.Second,
