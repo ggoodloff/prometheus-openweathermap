@@ -11,6 +11,7 @@ type environment struct {
 	Metrics  *metrics
 
 	BaseURL url.URL
+	Units   string
 }
 
 func newEnvironment(cfg *config) (*environment, error) {
@@ -29,5 +30,6 @@ func newEnvironment(cfg *config) (*environment, error) {
 		Registry: r,
 		Metrics:  newMetrics(r),
 		BaseURL:  *baseURL,
+		Units:    cfg.API.Units,
 	}, nil
 }

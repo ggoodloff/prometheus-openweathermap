@@ -10,6 +10,8 @@ api:
     max_delay: 10m # [OWM_API_BACKOFF_MAX_DELAY]
     multiplier: 2 # [OWM_API_BACKOFF_MULTIPLIER]
 
+  units: metric # [OWM_API_UNITS] Units to use for returned values
+
 stations:
   - name: vancouver # Unique nme that Will be used to populate the station metric label
     latitude: 49.260833 # Latitude of station

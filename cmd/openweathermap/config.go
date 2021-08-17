@@ -48,5 +48,6 @@ func populateDefaultConfig(v *viper.Viper) {
 			"max_delay":  10 * time.Minute,
 			"multiplier": 2,
 		},
+		"units": "metric",
 	})
 }

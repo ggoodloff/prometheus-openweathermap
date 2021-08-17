@@ -20,6 +20,8 @@ type openweathermap struct {
 	MaxCallsPerMonth uint          `mapstructure:"max_calls_per_month"`
 	MinPollRate      time.Duration `mapstructure:"min_poll_rate"`
 	Backoff          backoff       `mapstructure:"backoff"`
+
+	Units string `mapstructure:"units"`
 }
 
 type station struct {
