@@ -31,7 +31,6 @@ func (env *environment) collectPollution(s station) collectorFunc {
 	}
 
 	metricAirPollution := env.Metrics.AirPollution.MustCurryWith(labels)
-	metricAirQualityIndex := env.Metrics.AirQualityIndex.With(labels)
 
 	return func(ctx context.Context) error {
 		url := endpoint
@@ -60,7 +59,7 @@ func (env *environment) collectPollution(s station) collectorFunc {
 			return err
 		}
 
-		metricAirQualityIndex.Set(data.List[0].Main.AirQualityIndex)
+		env.Metrics.AirQualityIndex.With(labels).Set(data.List[0].Main.AirQualityIndex)
 
 		for key, value := range data.List[0].Components {
 			metricAirPollution.With(prometheus.Labels{

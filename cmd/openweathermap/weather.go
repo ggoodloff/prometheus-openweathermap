@@ -69,19 +69,6 @@ func (env *environment) collectWeather(s station) collectorFunc {
 		"station": s.Name,
 	}
 
-	metricTemperature := env.Metrics.Temperature.With(labels)
-	metricFeelsLike := env.Metrics.FeelsLike.With(labels)
-	metricMinTemperature := env.Metrics.MinTemperature.With(labels)
-	metricMaxTemperature := env.Metrics.MaxTemperature.With(labels)
-
-	metricHumidity := env.Metrics.Humidity.With(labels)
-	metricPressure := env.Metrics.Pressure.With(labels)
-
-	metricWindSpeed := env.Metrics.WindSpeed.With(labels)
-	metricWindGust := env.Metrics.WindGust.With(labels)
-
-	metricCloudiness := env.Metrics.Cloudiness.With(labels)
-
 	return func(ctx context.Context) error {
 		url := endpoint
 
@@ -110,18 +97,18 @@ func (env *environment) collectWeather(s station) collectorFunc {
 			return err
 		}
 
-		metricTemperature.Set(data.Main.Temperature)
-		metricFeelsLike.Set(data.Main.FeelsLike)
-		metricMinTemperature.Set(data.Main.MinTemperature)
-		metricMaxTemperature.Set(data.Main.MaxTemperature)
+		env.Metrics.Temperature.With(labels).Set(data.Main.Temperature)
+		env.Metrics.FeelsLike.With(labels).Set(data.Main.FeelsLike)
+		env.Metrics.MinTemperature.With(labels).Set(data.Main.MinTemperature)
+		env.Metrics.MaxTemperature.With(labels).Set(data.Main.MaxTemperature)
 
-		metricHumidity.Set(data.Main.Humidity)
-		metricPressure.Set(data.Main.Pressure)
+		env.Metrics.Humidity.With(labels).Set(data.Main.Humidity)
+		env.Metrics.Pressure.With(labels).Set(data.Main.Pressure)
 
-		metricWindSpeed.Set(data.Wind.Speed)
-		metricWindGust.Set(data.Wind.Gust)
+		env.Metrics.WindSpeed.With(labels).Set(data.Wind.Speed)
+		env.Metrics.WindGust.With(labels).Set(data.Wind.Gust)
 
-		metricCloudiness.Set(data.Clouds.Cloudiness)
+		env.Metrics.Cloudiness.With(labels).Set(data.Clouds.Cloudiness)
 
 		return nil
 	}
