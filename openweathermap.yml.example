@@ -17,4 +17,5 @@ stations:
     latitude: 49.260833 # Latitude of station
     longitude: -123.113889 # Longitude of station
     metrics:
+      weather: true
       pollution: true # Collect pollution metrics
