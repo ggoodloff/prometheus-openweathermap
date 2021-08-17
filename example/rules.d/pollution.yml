@@ -1,0 +1,13 @@
+groups:
+- name: Air Quality
+  rules:
+    - alert: PoorAirQuailty
+      expr: openweathermap_air_quality_index == 4
+    - alert: VeryPoorAirQuailty
+      expr: openweathermap_air_quality_index == 5
+- name: Air Pollution
+  rules:
+    - alert: HighFineParticulateMatter
+      expr: openweathermap_air_pollution{component="pm2_5"} >= 35
+    - alert: HighCoarseParticulateMatter
+      expr: openweathermap_air_pollution{component="pm10"} >= 155
