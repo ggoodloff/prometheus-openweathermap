@@ -48,6 +48,13 @@ func (env *environment) collectPollution(s station) collectorFunc {
 		}
 		defer res.Body.Close()
 
+		if res.StatusCode != http.StatusOK {
+			return fmt.Errorf(
+				"Failed to get air pollution: %d %s",
+				res.StatusCode, http.StatusText(res.StatusCode),
+			)
+		}
+
 		var data airPollution
 		if err = json.NewDecoder(res.Body).Decode(&data); err != nil {
 			return err
