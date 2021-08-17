@@ -11,6 +11,7 @@ type metrics struct {
 
 	Temperature *prometheus.GaugeVec
 	FeelsLike   *prometheus.GaugeVec
+	WetBulb     *prometheus.GaugeVec
 
 	Pressure *prometheus.GaugeVec
 	Humidity *prometheus.GaugeVec
@@ -50,6 +51,11 @@ func newMetrics(reg *prometheus.Registry) *metrics {
 			Namespace: "openweathermap",
 			Subsystem: "onecall",
 			Name:      "feels_like",
+		}, []string{"station"}),
+		WetBulb: factory.NewGaugeVec(prometheus.GaugeOpts{
+			Namespace: "openweathermap",
+			Subsystem: "onecall",
+			Name:      "wet_bulb",
 		}, []string{"station"}),
 
 		Pressure: factory.NewGaugeVec(prometheus.GaugeOpts{
