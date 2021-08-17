@@ -6,8 +6,8 @@ import (
 )
 
 type metrics struct {
-	AirPollution    *prometheus.GaugeVec
-	AirQualityIndex *prometheus.GaugeVec
+	PollutionComponents *prometheus.GaugeVec
+	AirQualityIndex     *prometheus.GaugeVec
 
 	Temperature *prometheus.GaugeVec
 	FeelsLike   *prometheus.GaugeVec
@@ -27,13 +27,15 @@ type metrics struct {
 func newMetrics(reg *prometheus.Registry) *metrics {
 	factory := promauto.With(reg)
 	return &metrics{
-		AirPollution: factory.NewGaugeVec(prometheus.GaugeOpts{
+		PollutionComponents: factory.NewGaugeVec(prometheus.GaugeOpts{
 			Namespace: "openweathermap",
-			Name:      "air_pollution",
+			Subsystem: "air_pollution",
+			Name:      "components",
 		}, []string{"station", "component"}),
 		AirQualityIndex: factory.NewGaugeVec(prometheus.GaugeOpts{
 			Namespace: "openweathermap",
-			Name:      "air_quality_index",
+			Subsystem: "air_pollution",
+			Name:      "aqi",
 		}, []string{"station"}),
 
 		Temperature: factory.NewGaugeVec(prometheus.GaugeOpts{
