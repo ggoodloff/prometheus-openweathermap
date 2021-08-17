@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"strings"
 	"time"
 
@@ -20,7 +19,7 @@ func loadConfig() (*config, error) {
 
 	err := v.ReadInConfig()
 	if err != nil {
-		panic(fmt.Errorf("Fatal error config file: %s", err))
+		return nil, err
 	}
 
 	v.SetEnvPrefix("owm")
