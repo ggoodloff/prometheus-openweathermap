@@ -1,3 +1,5 @@
+# NOAA has guidelines you could use to set alerts
+# See: https://www.weather.gov/safety/airquality
 groups:
 - name: Air Quality
   rules:
