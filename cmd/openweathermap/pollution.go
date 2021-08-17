@@ -50,8 +50,8 @@ func (env *environment) collectPollution(s station) collectorFunc {
 
 		if res.StatusCode != http.StatusOK {
 			return fmt.Errorf(
-				"Failed to get air pollution: %d %s",
-				res.StatusCode, http.StatusText(res.StatusCode),
+				"Failed to get air pollution for station %s: %d %s",
+				s.Name, res.StatusCode, http.StatusText(res.StatusCode),
 			)
 		}
 
