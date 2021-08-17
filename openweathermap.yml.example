@@ -3,7 +3,7 @@ address: ':80' # [OWM_ADDRESS] Interface and port to bind to
 api:
   key: '[API_KEY]' # [OWM_API_KEY] Your openweathermap api key
   max_calls_per_month: 10000 # [OWM_API_max_calls_per_month] Maximum number of API calls to make per month
-  min_poll_rate: 1m # [OWM_API_MIN_POLL_RATE] The fastest rate the API will be polled
+  min_poll_rate: 5m # [OWM_API_MIN_POLL_RATE] The fastest rate the API will be polled
 
   backoff:
     base_delay: 10s # [OWM_API_BACKOFF_BASE_DELAY]
