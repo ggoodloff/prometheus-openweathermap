@@ -38,6 +38,13 @@ func main() {
 	apiCallRate := 31 * 24 * time.Hour / time.Duration(cfg.API.MaxAPICallsPerMonth)
 
 	for _, s := range cfg.Stations {
+		if s.Metrics.Pollution {
+			collectors = append(collectors, &collector{
+				Collect: env.collectPollution(&s),
+				Rate:    apiCallRate,
+				Backoff: cfg.API.Backoff,
+			})
+		}
 	}
 
 	var wg sync.WaitGroup

@@ -27,6 +27,7 @@ type station struct {
 	Latitude  float64 `mapstructure:"latitude"`
 	Longitude float64 `mapstructure:"longitude"`
 	Metrics   struct {
+		Pollution bool `mapstructure:"pollution"`
 	}
 }
 

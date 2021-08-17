@@ -51,5 +51,6 @@ func populateDefaultConfig(v *viper.Viper) {
 		},
 	})
 	v.SetDefault("metrics", map[string]interface{}{
+		"pollution": true,
 	})
 }
