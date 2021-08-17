@@ -1,0 +1,15 @@
+groups:
+- name: Wind
+  rules:
+    - alert: HighWindSpeed
+      expr: openweathermap_onecall_wind_spped >= 60
+    - alert: HighWindGusts
+      expr: openweathermap_onecall_wind_gust >= 60
+- name: Temperature
+  rules:
+    - alert: HighWetBulbTemperature
+      expr: openweathermap_onecall_wet_bulb >= 30
+- name: UV Index
+  rules:
+    - alert: HighUVIndex
+      expr: openweathermap_onecall_uvi > 5
