@@ -12,16 +12,19 @@ type metrics struct {
 	Temperature *prometheus.GaugeVec
 	FeelsLike   *prometheus.GaugeVec
 
-	MinTemperature *prometheus.GaugeVec
-	MaxTemperature *prometheus.GaugeVec
-
-	Humidity *prometheus.GaugeVec
 	Pressure *prometheus.GaugeVec
+	Humidity *prometheus.GaugeVec
+	DewPoint *prometheus.GaugeVec
+
+	UVIndex *prometheus.GaugeVec
+
+	Clouds     *prometheus.GaugeVec
+	Visibility *prometheus.GaugeVec
 
 	WindSpeed *prometheus.GaugeVec
 	WindGust  *prometheus.GaugeVec
 
-	Cloudiness *prometheus.GaugeVec
+	Weather *prometheus.GaugeVec
 }
 
 func newMetrics(reg *prometheus.Registry) *metrics {
@@ -40,42 +43,63 @@ func newMetrics(reg *prometheus.Registry) *metrics {
 
 		Temperature: factory.NewGaugeVec(prometheus.GaugeOpts{
 			Namespace: "openweathermap",
+			Subsystem: "onecall",
 			Name:      "temperature",
 		}, []string{"station"}),
 		FeelsLike: factory.NewGaugeVec(prometheus.GaugeOpts{
 			Namespace: "openweathermap",
+			Subsystem: "onecall",
 			Name:      "feels_like",
 		}, []string{"station"}),
-		MinTemperature: factory.NewGaugeVec(prometheus.GaugeOpts{
-			Namespace: "openweathermap",
-			Name:      "min_temperature",
-		}, []string{"station"}),
-		MaxTemperature: factory.NewGaugeVec(prometheus.GaugeOpts{
-			Namespace: "openweathermap",
-			Name:      "max_temperature",
-		}, []string{"station"}),
 
-		Humidity: factory.NewGaugeVec(prometheus.GaugeOpts{
-			Namespace: "openweathermap",
-			Name:      "humidity",
-		}, []string{"station"}),
 		Pressure: factory.NewGaugeVec(prometheus.GaugeOpts{
 			Namespace: "openweathermap",
+			Subsystem: "onecall",
 			Name:      "pressure",
+		}, []string{"station"}),
+		Humidity: factory.NewGaugeVec(prometheus.GaugeOpts{
+			Namespace: "openweathermap",
+			Subsystem: "onecall",
+			Name:      "humidity",
+		}, []string{"station"}),
+		DewPoint: factory.NewGaugeVec(prometheus.GaugeOpts{
+			Namespace: "openweathermap",
+			Subsystem: "onecall",
+			Name:      "dew_point",
+		}, []string{"station"}),
+
+		UVIndex: factory.NewGaugeVec(prometheus.GaugeOpts{
+			Namespace: "openweathermap",
+			Subsystem: "onecall",
+			Name:      "uvi",
+		}, []string{"station"}),
+
+		Clouds: factory.NewGaugeVec(prometheus.GaugeOpts{
+			Namespace: "openweathermap",
+			Subsystem: "onecall",
+			Name:      "clouds",
+		}, []string{"station"}),
+		Visibility: factory.NewGaugeVec(prometheus.GaugeOpts{
+			Namespace: "openweathermap",
+			Subsystem: "onecall",
+			Name:      "visibility",
 		}, []string{"station"}),
 
 		WindSpeed: factory.NewGaugeVec(prometheus.GaugeOpts{
 			Namespace: "openweathermap",
+			Subsystem: "onecall",
 			Name:      "wind_speed",
 		}, []string{"station"}),
 		WindGust: factory.NewGaugeVec(prometheus.GaugeOpts{
 			Namespace: "openweathermap",
+			Subsystem: "onecall",
 			Name:      "wind_gust",
 		}, []string{"station"}),
 
-		Cloudiness: factory.NewGaugeVec(prometheus.GaugeOpts{
+		Weather: factory.NewGaugeVec(prometheus.GaugeOpts{
 			Namespace: "openweathermap",
-			Name:      "cloudiness",
-		}, []string{"station"}),
+			Subsystem: "onecall",
+			Name:      "weather",
+		}, []string{"station", "code", "icon"}),
 	}
 }

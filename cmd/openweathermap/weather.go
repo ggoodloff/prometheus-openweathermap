@@ -11,63 +11,61 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 )
 
-type weather struct {
-	ID        int    `json:"id"`
-	Name      string `json:"name"`
-	Timezone  int    `json:"timezone"`
-	Coord     coord  `json:"coord"`
-	Timestamp uint   `json:"dt"`
+type onecall struct {
+	Latitude  float64 `json:"latitude"`
+	Longitude float64 `json:"longitude"`
 
-	Sys struct {
-		Sunrise int `json:"sunrise"`
-		Sunset  int `json:"suset"`
-	} `json:"sys"`
+	Timezone       string `json:"timezone"`
+	TimezoneOffset int    `json:"timezone_offset"`
 
-	Weather []struct {
-		ID          int    `json:"id"`
-		Main        string `json:"main"`
-		Description string `json:"description"`
-		Icon        string `json:"icon"`
-	} `json:"weather"`
+	Current struct {
+		Timestamp int64 `json:"dt"`
 
-	Main struct {
+		Sunrise int64 `json:"sunrise"`
+		Sunset  int64 `json:"sunset"`
+
 		Temperature float64 `json:"temp"`
 		FeelsLike   float64 `json:"feels_like"`
+		Pressure    float64 `json:"pressure"`
+		Humidity    float64 `json:"humidity"`
+		DewPoint    float64 `json:"dew_point"`
 
-		MinTemperature float64 `json:"temp_min"`
-		MaxTemperature float64 `json:"temp_max"`
+		UVIndex float64 `json:"uvi"`
 
-		Humidity float64 `json:"humidity"`
+		Clouds     float64 `json:"clouds"`
+		Visibility float64 `json:"visibility"`
 
-		Pressure            float64 `json:"pressure"`
-		SeaLevelPressure    float64 `json:"sea_level"`
-		GroundLevelPressure float64 `json:"grnd_level"`
-	} `json:"main"`
+		WindSpeed     float64 `json:"wind_speed"`
+		WindGust      float64 `json:"wind_gust"`
+		WindDirection float64 `json:"wind_deg"`
 
-	Wind struct {
-		Speed     float64 `json:"speed"`
-		Gust      float64 `json:"gust"`
-		Direction float64 `json:"deg"`
-	} `json:"wind"`
+		Weather []struct {
+			ID          int    `json:"id"`
+			Main        string `json:"main"`
+			Description string `json:"description"`
+			Icon        string `json:"icon"`
+		} `json:"weather"`
+	} `json:"current"`
 
-	Clouds struct {
-		Cloudiness float64 `json:"all"`
-	} `json:"clouds"`
+	Minutely []struct {
+	} `json:"minutely"`
 
-	Rain struct {
-	} `json:"rain"`
+	Hourly []struct {
+	} `json"hourly"`
 
-	Snow struct {
-	} `json:"snow"`
+	Daily []struct {
+	} `json:"daily"`
 }
 
 func (env *environment) collectWeather(s station) collectorFunc {
 	endpoint := env.BaseURL
-	endpoint.Path = path.Join(endpoint.Path, "weather")
+	endpoint.Path = path.Join(endpoint.Path, "onecall")
 
 	labels := prometheus.Labels{
 		"station": s.Name,
 	}
+
+	metricWeather := env.Metrics.Weather.MustCurryWith(labels)
 
 	return func(ctx context.Context) error {
 		url := endpoint
@@ -92,23 +90,33 @@ func (env *environment) collectWeather(s station) collectorFunc {
 			)
 		}
 
-		var data weather
+		var data onecall
 		if err = json.NewDecoder(res.Body).Decode(&data); err != nil {
 			return err
 		}
 
-		env.Metrics.Temperature.With(labels).Set(data.Main.Temperature)
-		env.Metrics.FeelsLike.With(labels).Set(data.Main.FeelsLike)
-		env.Metrics.MinTemperature.With(labels).Set(data.Main.MinTemperature)
-		env.Metrics.MaxTemperature.With(labels).Set(data.Main.MaxTemperature)
+		env.Metrics.Temperature.With(labels).Set(data.Current.Temperature)
+		env.Metrics.FeelsLike.With(labels).Set(data.Current.FeelsLike)
 
-		env.Metrics.Humidity.With(labels).Set(data.Main.Humidity)
-		env.Metrics.Pressure.With(labels).Set(data.Main.Pressure)
+		env.Metrics.Pressure.With(labels).Set(data.Current.Pressure)
+		env.Metrics.Humidity.With(labels).Set(data.Current.Humidity)
+		env.Metrics.DewPoint.With(labels).Set(data.Current.DewPoint)
 
-		env.Metrics.WindSpeed.With(labels).Set(data.Wind.Speed)
-		env.Metrics.WindGust.With(labels).Set(data.Wind.Gust)
+		env.Metrics.UVIndex.With(labels).Set(data.Current.UVIndex)
 
-		env.Metrics.Cloudiness.With(labels).Set(data.Clouds.Cloudiness)
+		env.Metrics.Clouds.With(labels).Set(data.Current.Clouds)
+		env.Metrics.Visibility.With(labels).Set(data.Current.Visibility)
+
+		env.Metrics.WindSpeed.With(labels).Set(data.Current.WindSpeed)
+		env.Metrics.WindGust.With(labels).Set(data.Current.WindGust)
+
+		metricWeather.Reset()
+		for _, w := range data.Current.Weather {
+			metricWeather.With(prometheus.Labels{
+				"code": fmt.Sprint(w.ID),
+				"icon": w.Icon,
+			}).Set(1)
+		}
 
 		return nil
 	}
