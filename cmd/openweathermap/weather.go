@@ -67,6 +67,7 @@ func (env *environment) collectWeather(s station) collectorFunc {
 	}
 
 	metricWeather := env.Metrics.Weather.MustCurryWith(labels)
+	metricWeatherIcon := env.Metrics.WeatherIcon.MustCurryWith(labels)
 
 	return func(ctx context.Context) error {
 		url := endpoint
@@ -112,10 +113,14 @@ func (env *environment) collectWeather(s station) collectorFunc {
 		env.Metrics.WindGust.With(labels).Set(data.Current.WindGust)
 
 		metricWeather.Reset()
+		metricWeatherIcon.Reset()
 		for _, w := range data.Current.Weather {
 			metricWeather.With(prometheus.Labels{
 				"code": fmt.Sprint(w.ID),
-				"icon": w.Icon,
+			}).Set(1)
+
+			metricWeatherIcon.With(prometheus.Labels{
+				"icon": fmt.Sprint(w.Icon),
 			}).Set(1)
 		}
 

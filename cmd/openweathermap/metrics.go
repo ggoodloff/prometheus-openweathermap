@@ -25,7 +25,8 @@ type metrics struct {
 	WindSpeed *prometheus.GaugeVec
 	WindGust  *prometheus.GaugeVec
 
-	Weather *prometheus.GaugeVec
+	Weather     *prometheus.GaugeVec
+	WeatherIcon *prometheus.GaugeVec
 }
 
 func newMetrics(reg *prometheus.Registry) *metrics {
@@ -106,6 +107,11 @@ func newMetrics(reg *prometheus.Registry) *metrics {
 			Namespace: "openweathermap",
 			Subsystem: "onecall",
 			Name:      "weather",
-		}, []string{"station", "code", "icon"}),
+		}, []string{"station", "code"}),
+		WeatherIcon: factory.NewGaugeVec(prometheus.GaugeOpts{
+			Namespace: "openweathermap",
+			Subsystem: "onecall",
+			Name:      "icon",
+		}, []string{"station", "icon"}),
 	}
 }
