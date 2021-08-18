@@ -51,7 +51,7 @@ type onecall struct {
 	} `json:"minutely"`
 
 	Hourly []struct {
-	} `json"hourly"`
+	} `json:"hourly"`
 
 	Daily []struct {
 	} `json:"daily"`
