@@ -128,7 +128,7 @@ func (env *environment) collectWeather(s station) collectorFunc {
 			// Using formula from here: https://perryweather.com/2020/04/01/what-is-wbgt-and-how-do-you-calculate-it/
 			T := data.Current.Temperature
 			rh := data.Current.Humidity
-			Tw := T*math.Atan(0.151977*math.Sqrt(rh+8.313659)) + math.Atan(T+rh) - math.Atan(rh-1.676331) + 0.00391838*math.Pow(rh, 3/2)*math.Atan(0.023101*rh) - 4.686035
+			Tw := T*math.Atan(0.151977*math.Sqrt(rh+8.313659)) + math.Atan(T+rh) - math.Atan(rh-1.676331) + 0.00391838*math.Pow(rh, 1.5)*math.Atan(0.023101*rh) - 4.686035
 
 			env.Metrics.WetBulb.With(labels).Set(Tw)
 		}
