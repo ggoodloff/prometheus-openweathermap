@@ -14,10 +14,10 @@ import (
 type airPollution struct {
 	Coord coord `json:"coord"`
 	List  []struct {
-		Timestamp int64 `mapstructure:"dt"`
+		Timestamp int64 `json:"dt"`
 		Main      struct {
-			AirQualityIndex float64 `mapstructure:"aqi"`
-		} `mapstructure:"main"`
+			AirQualityIndex float64 `json:"aqi"`
+		} `json:"main"`
 		Components map[string]float64 `json:"components"`
 	} `json:"list"`
 }
