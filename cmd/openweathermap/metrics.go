@@ -36,11 +36,13 @@ func newMetrics(reg *prometheus.Registry) *metrics {
 			Namespace: "openweathermap",
 			Subsystem: "air_pollution",
 			Name:      "components",
+			Help:      "Air pollutant concentration in micrograms per cubic meter",
 		}, []string{"station", "component"}),
 		AirQualityIndex: factory.NewGaugeVec(prometheus.GaugeOpts{
 			Namespace: "openweathermap",
 			Subsystem: "air_pollution",
 			Name:      "aqi",
+			Help:      "Current air quality index (1-5)",
 		}, []string{"station"}),
 
 		Temperature: factory.NewGaugeVec(prometheus.GaugeOpts{
@@ -107,11 +109,13 @@ func newMetrics(reg *prometheus.Registry) *metrics {
 			Namespace: "openweathermap",
 			Subsystem: "onecall",
 			Name:      "weather",
+			Help:      "Current weather condition codes (https://openweathermap.org/weather-conditions)",
 		}, []string{"station", "code"}),
 		WeatherIcon: factory.NewGaugeVec(prometheus.GaugeOpts{
 			Namespace: "openweathermap",
 			Subsystem: "onecall",
 			Name:      "icon",
+			Help:      "Current weather condition icons (https://openweathermap.org/weather-conditions)",
 		}, []string{"station", "icon"}),
 	}
 }
