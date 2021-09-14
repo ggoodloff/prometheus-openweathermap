@@ -55,6 +55,17 @@ type onecall struct {
 
 	Daily []struct {
 	} `json:"daily"`
+
+	Alerts []struct {
+		Sender string `json:"sender_name"`
+		Event  string `json:"event"`
+
+		Start int64 `json:"start"`
+		End   int64 `json:"end"`
+
+		Description string   `json:"description"`
+		Tags        []string `json:"tags"`
+	}
 }
 
 func (env *environment) collectWeather(s station) collectorFunc {
@@ -67,6 +78,8 @@ func (env *environment) collectWeather(s station) collectorFunc {
 
 	metricWeather := env.Metrics.Weather.MustCurryWith(labels)
 	metricWeatherIcon := env.Metrics.WeatherIcon.MustCurryWith(labels)
+
+	metricAlerts := env.Metrics.Alerts.MustCurryWith(labels)
 
 	return func(ctx context.Context) error {
 		url := endpoint
@@ -128,6 +141,14 @@ func (env *environment) collectWeather(s station) collectorFunc {
 				data.Current.Temperature,
 				data.Current.Humidity,
 			))
+		}
+
+		metricAlerts.Reset()
+		for _, a := range data.Alerts {
+			metricAlerts.With(prometheus.Labels{
+				"sender": a.Sender,
+				"event":  a.Event,
+			}).Set(1)
 		}
 
 		return nil

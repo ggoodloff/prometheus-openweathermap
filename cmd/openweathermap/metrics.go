@@ -27,6 +27,8 @@ type metrics struct {
 
 	Weather     *prometheus.GaugeVec
 	WeatherIcon *prometheus.GaugeVec
+
+	Alerts *prometheus.GaugeVec
 }
 
 func newMetrics(reg *prometheus.Registry) *metrics {
@@ -117,5 +119,10 @@ func newMetrics(reg *prometheus.Registry) *metrics {
 			Name:      "icon",
 			Help:      "Current weather condition icons (https://openweathermap.org/weather-conditions)",
 		}, []string{"station", "icon"}),
+
+		Alerts: factory.NewGaugeVec(prometheus.GaugeOpts{
+			Namespace: "openweathermap",
+			Name:      "alerts",
+		}, []string{"station", "sender", "event"}),
 	}
 }
