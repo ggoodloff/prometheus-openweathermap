@@ -17,3 +17,13 @@ groups:
   rules:
     - alert: HighUVIndex
       expr: openweathermap_onecall_uvi > 5
+- name: Weather Conditions
+  rules:
+    - alert: Thunderstorm
+      expr: openweathermap_onecall_weather{code=~"2.."}
+    - alert: Drizzle
+      expr: openweathermap_onecall_weather{code=~"3.."}
+    - alert: Rain
+      expr: openweathermap_onecall_weather{code=~"5.."}
+    - alert: Snow
+      expr: openweathermap_onecall_weather{code=~"6.."}
