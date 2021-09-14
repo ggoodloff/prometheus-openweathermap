@@ -9,6 +9,10 @@ groups:
   rules:
     - alert: HighWetBulbTemperature
       expr: openweathermap_onecall_wet_bulb >= 30
+    - alert: HeatWarning
+      expr: openweathermap_onecall_temperature >= 30
+    - alert: ColdWarning
+      expr: openweathermap_onecall_temperature <= -30
 - name: UV Index
   rules:
     - alert: HighUVIndex
