@@ -1,0 +1,11 @@
+route:
+  group_wait: 10s
+  group_interval: 1m
+  repeat_interval: 1h
+  receiver: some_iot_device
+
+receivers:
+  - name: some_iot_device
+    webhook_configs:
+      - send_resolved: true
+        url: http://ip_of_esp8266_on_your_network/alert

@@ -1,0 +1,21 @@
+address: ':80' # [OWM_ADDRESS] Interface and port to bind to
+
+api:
+  key: '[API_KEY]' # [OWM_API_KEY] Your openweathermap api key
+  max_calls_per_month: 10000 # [OWM_API_max_calls_per_month] Maximum number of API calls to make per month
+  min_poll_rate: 5m # [OWM_API_MIN_POLL_RATE] The fastest rate the API will be polled
+
+  backoff:
+    base_delay: 10s # [OWM_API_BACKOFF_BASE_DELAY]
+    max_delay: 10m # [OWM_API_BACKOFF_MAX_DELAY]
+    multiplier: 2 # [OWM_API_BACKOFF_MULTIPLIER]
+
+  units: metric # [OWM_API_UNITS] Units to use for returned values
+
+stations:
+  - name: vancouver # Unique nme that Will be used to populate the station metric label
+    latitude: 49.260833 # Latitude of station
+    longitude: -123.113889 # Longitude of station
+    metrics:
+      weather: true
+      pollution: true # Collect pollution metrics

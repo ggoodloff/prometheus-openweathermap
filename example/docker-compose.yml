@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  alertmanager:
+    image: prom/alertmanager:latest
+    ports:
+      - ${ALERTMANAGER_PORT}:9093
+    volumes:
+      - ./alertmanager.yml:/etc/alertmanager.yml
+    command: ["--config.file=/etc/alertmanager.yml"]
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - ${PROMETHEUS_PORT}:9090
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./rules.d/:/etc/prometheus/rules.d
+    command: ["--config.file=/etc/prometheus/prometheus.yml"]
+    restart: unless-stopped
+
+  openweathermap:
+    build: https://github.com/easyas314159/prometheus-openweathermap.git
+    volumes:
+      - ./openweathermap.yml:/etc/openweathermap.yml
+    environment:
+      OWM_API_KEY: ${OWM_API_KEY}
+    restart: unless-stopped

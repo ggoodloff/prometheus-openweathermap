@@ -1,0 +1,15 @@
+# NOAA has guidelines you could use to set alerts
+# See: https://www.weather.gov/safety/airquality
+groups:
+- name: Air Quality
+  rules:
+    - alert: PoorAirQuailty
+      expr: openweathermap_air_pollution_aqi == 4
+    - alert: VeryPoorAirQuailty
+      expr: openweathermap_air_pollution_aqi == 5
+- name: Air Pollution
+  rules:
+    - alert: HighFineParticulateMatter
+      expr: openweathermap_air_pollution_components{component="pm2_5"} >= 35
+    - alert: HighCoarseParticulateMatter
+      expr: openweathermap_air_pollution_components{component="pm10"} >= 155

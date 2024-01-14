@@ -1,0 +1,29 @@
+groups:
+- name: Wind
+  rules:
+    - alert: HighWindSpeed
+      expr: openweathermap_onecall_wind_spped >= 60
+    - alert: HighWindGusts
+      expr: openweathermap_onecall_wind_gust >= 60
+- name: Temperature
+  rules:
+    - alert: HighWetBulbTemperature
+      expr: openweathermap_onecall_wet_bulb >= 30
+    - alert: HeatWarning
+      expr: openweathermap_onecall_temperature >= 30
+    - alert: ColdWarning
+      expr: openweathermap_onecall_temperature <= -30
+- name: UV Index
+  rules:
+    - alert: HighUVIndex
+      expr: openweathermap_onecall_uvi > 5
+- name: Weather Conditions
+  rules:
+    - alert: Thunderstorm
+      expr: openweathermap_onecall_weather{code=~"2.."}
+    - alert: Drizzle
+      expr: openweathermap_onecall_weather{code=~"3.."}
+    - alert: Rain
+      expr: openweathermap_onecall_weather{code=~"5.."}
+    - alert: Snow
+      expr: openweathermap_onecall_weather{code=~"6.."}
